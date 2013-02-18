@@ -1,0 +1,93 @@
+﻿<Window x:Class="CVLock.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Width="850" Height="679" WindowStyle="None" AllowsTransparency="True">
+    <Border BorderBrush="#00bcf2" BorderThickness="1" Margin="0,0,0,10" >
+        <Grid Margin="0,0,9,-1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="35*"/>
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+           
+            
+            <Button Style="{StaticResource SimpleButton}"  Grid.ColumnSpan="2" HorizontalAlignment="Right" Grid.Column="1" VerticalAlignment="Top" Margin="0 10 " Click="CloseBtnClick" >
+                <TextBlock Text="" FontFamily="{StaticResource SegoeSymbol}" FontSize="12" Foreground="#999"/>
+            </Button>
+
+            <Image Source="Images\Status.png" Stretch="None" HorizontalAlignment="Left"  Grid.Column="1"/>
+            <TextBlock x:Name="title" Text="CVLock" HorizontalAlignment="Left" Margin="65,26,0,26" VerticalAlignment="Center" FontFamily="{StaticResource KinectFontLight}" Foreground="{StaticResource TitleForegroundBrush}" FontSize="{StaticResource HeaderFontSize}" Grid.Column="1"  />
+            <Rectangle Fill="#666" Grid.Row="1" Margin="15 0 10 15" Grid.ColumnSpan="2" />
+            <TextBlock x:Name="txtError" Grid.Row="1" Text="No Kinect Found" Visibility="Collapsed" FontFamily="{StaticResource KinectFontLight}" Foreground="#ccc" FontSize="21" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+
+            <Viewbox Margin="15 0 10 15" Grid.Row="1" Stretch="Uniform" x:Name="outputViewbox"  Grid.ColumnSpan="2" >            
+                      <Image Name="outImg" Width="640" Height="480" RenderTransformOrigin="0.5,0.5" />                                                                                  
+            </Viewbox>
+            
+            <Image Name="colorImg" Width="160" Height="120" Grid.Row="1" Grid.ColumnSpan="2" Stretch="Uniform" RenderTransformOrigin="0.5,0.5" Margin="0 2 12 0" HorizontalAlignment="Right" VerticalAlignment="Top" />
+            <Image Name="toTrackIMG" Width="101" Height="101" Grid.ColumnSpan="2" Stretch="Uniform" RenderTransformOrigin="0.5,0.5" Margin="0,72,423,0" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.RowSpan="2" />
+            <StackPanel  Margin="0 0 15 15" Width="300" Background="#f0f0f0" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="1" >
+                <TextBlock Text="Settings"  Padding="10" Background="#ccc" />
+                <TextBlock Text="Min Distance" Padding="10"/>
+                <StackPanel  Orientation="Horizontal">
+                    <Slider Width="250"  Minimum="300" Value="600"  Maximum="900" TickFrequency="1" IsSnapToTickEnabled="True" Interval="1" Margin="5"  x:Name="sliderMin" Padding="10"/>
+                    <TextBlock Text="{Binding Value, ElementName=sliderMin}" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <TextBlock Text="Max Distance" Padding="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Width="250" Minimum="900" Value="900" Maximum="6000" Margin="5" x:Name="sliderMax" Padding="10"/>
+                    <TextBlock Text="{Binding Value, ElementName=sliderMax}" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <TextBlock Text="Min Blob Size" Padding="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Width="250" Minimum="1" Value="40" Maximum="50" Margin="5" x:Name="sliderMinSize"  TickFrequency="1" IsSnapToTickEnabled="True" Interval="1" Padding="10"/>
+                    <TextBlock Text="{Binding Value, ElementName=sliderMinSize}" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <TextBlock Text="Max Blob Size" Padding="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Width="250" Minimum="1" Value="200" Maximum="500" Margin="5" x:Name="sliderMaxSize"  TickFrequency="1" IsSnapToTickEnabled="True" Interval="1" Padding="10"/>
+                    <TextBlock Text="{Binding Value, ElementName=sliderMaxSize}" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <TextBlock Background="#ccc" Text="Info" Margin="0,20,0,0" Padding="10"/>
+                <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+
+                    <WrapPanel Width="300px">
+                        <TextBlock Text="Blobs Detected" Margin="10 0 0 0" />
+                        <TextBlock TextWrapping="Wrap" x:Name="txtBlobCount" Text="0" Margin="10 0 0 0" />
+                    </WrapPanel>
+
+
+                </StackPanel>
+                <StackPanel Width="auto">
+                    <TextBlock x:Name="feedback" Text="" Margin="10 0 0 0" />
+                    <Button x:Name="start_train_button" Content="Start Training" Grid.Column="2" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="94" Click="Button_Click_1"/>
+                </StackPanel>
+                <StackPanel Width="auto">
+                    <Button x:Name="start_track_button" Content="Start Tracking" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="94" Click="Button_Click_2"/>
+                    <Button x:Name="check_pass_button" Content="Check Password" Grid.Column="2" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="94" Click="Button_Click_3" RenderTransformOrigin="0.479,0.773"/>
+                    <TextBlock x:Name="track_stat" Text="off" />
+
+                    <WrapPanel>
+                        <TextBlock x:Name="pass" Text="Pass:" />
+                        <TextBlock x:Name="passTxt" Text="" />
+                        <TextBlock x:Name="passStatus" Text="" Foreground="#FF5AFF3F" />
+                    </WrapPanel>
+                </StackPanel>
+
+                <TextBlock x:Name="txtInfo" Text="" Margin="10 0 0 0" />
+
+            </StackPanel>
+            
+
+        </Grid>
+    </Border>
+</Window>
